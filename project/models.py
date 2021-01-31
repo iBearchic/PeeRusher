@@ -1,7 +1,8 @@
 import pygame
 
 class Mell(pygame.sprite.Sprite):
-    water = 100.0
+    #Показатели персонажа
+    water = 100.0 
     health = 10.0
     speed = 2
 
@@ -38,17 +39,21 @@ class Mell(pygame.sprite.Sprite):
             self.rect.y += self.speed
             if self.rect.y > H-self.rect.height:
                 self.rect.y = H-self.rect.height
-
-    def feed(self):
-        self.health += 10
     
-    def drink(self):
-        self.water += 100
+    #На случай, если игрок бездействует
+    def think(self):
+        self.health -= 0.001
+
+    def feed(self, Id):
+        if Id == 0:
+            self.water += 25
+        elif Id == 1:
+            self.health += 3
 
 class Food(pygame.sprite.Sprite):
-    def __init__(self, x , y, weight, surf, group):
+    def __init__(self, x , y, Id, surf, group):
         pygame.sprite.Sprite.__init__(self)
         self.image = surf
         self.rect = self.image.get_rect(center=(x, y)) 
-        self.weight = weight
-        self.add(group)   
+        self.Id = Id
+        self.add(group)  
