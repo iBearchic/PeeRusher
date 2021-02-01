@@ -7,7 +7,7 @@ from models import Mell, Food
 pygame.init()
 
 #Задержка появления объектов Еда
-pygame.time.set_timer(pygame.USEREVENT, 2500)
+pygame.time.set_timer(pygame.USEREVENT, 2000)
 
 W, H = 600, 600
 
@@ -25,7 +25,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 #Установка FPS
-FPS = 120
+FPS = 100
 clock = pygame.time.Clock()
 
 #Объявление персонажа
@@ -62,7 +62,8 @@ createFood(food)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or round(player.water) <= 0 or round(player.health) <= 0:
-            sc.blit(stat2.render('Игра закончена', 10, RED, BLACK), (140, H//2))
+            sc.blit(stat2.render('Игра закончена', 10, RED, BLACK), (140, H//3))
+            sc.blit(stat2.render('Время жизни:'+str(pygame.time.get_ticks()//1000)+'s', 10, RED, BLACK), (140, H//3 + 64))
             pygame.display.update()
             sleep(3)
             exit()
@@ -89,8 +90,10 @@ while True:
         collideFood()
 
         #Cостояния голода и жажды Мелуши
-        sc.blit(stat1.render('Жажда: '+str(round(player.water)), 10, WHITE, BLACK), (10, 10))
-        sc.blit(stat1.render('Голод: '+str(round(player.health)), 10, WHITE, BLACK), (10, 30))
+        sc.blit(pygame.image.load("images/water.png").convert_alpha(),(0,7))
+        sc.blit(pygame.image.load("images/corm.png").convert_alpha(),(0,27))
+        sc.blit(stat1.render('Жажда: '+str(round(player.water)), 10, WHITE, BLACK), (20, 10))
+        sc.blit(stat1.render('Голод: '+str(round(player.health)), 10, WHITE, BLACK), (20, 30))
 
         #Прорисовка объектов Еда
         food.draw(sc)
